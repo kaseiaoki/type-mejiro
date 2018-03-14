@@ -8,11 +8,6 @@ class EventName {
     static MOUSE_MOVE:string = "mousemove";
 }
 
-// EventNameクラスを使用してイベント名を指定する。
-// window.addEventListener(EventName.LOAD, () => {alert("ウィンドウのロードが完了しました。")});
-// window.addEventListener(EventName.CLICK, () => {alert("clickされました。");});
-// window.addEventListener(EventName.MOUSE_MOVE, () => {console.log("マウス移動しています。");});
-
 export interface IWindow extends Window {
   webkitSpeechRecognition: any;
 }
