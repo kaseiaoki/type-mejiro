@@ -67,9 +67,9 @@
 /* 0 */
 /***/ (function(module, exports) {
 
-var qword = ["title"];
+var qword = ["zero"];
 var text = [];
-var index = 1;
+var index = 0;
 var EventName = /** @class */ (function () {
     function EventName() {
     }
@@ -85,6 +85,10 @@ rec.addEventListener(EventName.CLICK, function () {
     recognition.start();
     console.log("recording");
 });
+var period_split = function (text) {
+    var period = ".";
+    return text.split(period);
+};
 var next = document.getElementById('nextbutton');
 next.addEventListener(EventName.CLICK, function () {
     index += 1;
@@ -94,8 +98,15 @@ next.addEventListener(EventName.CLICK, function () {
 var doc = document.getElementById('wordbutton');
 doc.addEventListener(EventName.CLICK, function () {
     var question = document.getElementById("q_area").value;
-    qword.push(question);
-    console.log(question);
+    period_split(question).forEach(function (q) {
+        console.log(q);
+        if (q.length >= 2) {
+            var regexpa = /[^a-zA-Z0-9|| ]/g;
+            var set_question = q.replace(regexpa, "");
+            console.log(set_question);
+            qword.push(set_question);
+        }
+    });
 });
 var answer = document.getElementById('cansbutton');
 answer.addEventListener(EventName.CLICK, function () {
@@ -105,15 +116,18 @@ answer.addEventListener(EventName.CLICK, function () {
     msg.rate = 0.5;
     speechSynthesis.speak(msg);
 });
+var results_hash = {};
 recognition.lang = 'en-US';
 recognition.addEventListener('result', function (event) {
     var text = event.results.item(0).item(0).transcript;
     console.log(text);
     if (text == qword[1]) {
         document.getElementById("result").innerHTML = "<li class='fa fa-circle-o'>Correct</li>";
+        results_hash[qword[index]] = true;
     }
     else {
         document.getElementById("result").innerHTML = "<li class='fa fa-circle-o'>Correct</li>";
+        results_hash[qword[index]] = false;
     }
 }, false);
 
